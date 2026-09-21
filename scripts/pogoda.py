@@ -30,11 +30,11 @@ def get_coords():
             first_result = data[0]
             latitude = first_result["lat"]
             longitude = first_result["lon"]
-            print(f"Przekazano {limit} adres/ów")
+            print(f"Znaleziono {limit}.")
+            print(first_result["display_name"])
             return latitude, longitude
         else:
             print("Nie znaleziono adresu.")    
-
 
 def get_station_imgw():
     url = "https://danepubliczne.imgw.pl/api/data/meteo"
@@ -77,9 +77,9 @@ def get_station_openw(latitude, longitude):
     wind = current.Variables(1).Value() *1000/3600
     humid = current.Variables(2).Value()
     rain = current.Variables(3).Value()
-
+    print("========================================")
     print(f"Współrzędne: {response.Latitude()}°N {response.Longitude()}°E")
-    print(f"Elewacja: {response.Elevation()} m n.p.m.")
+    print(f"Wzniesienie: {response.Elevation()} m n.p.m.")
     print(f"Temperatura: {temperature:.2f}°C")
     print(f"Wiatr: {wind:.2f} m/s")
     print(f"Wilgotność: {humid:.2f}%")
@@ -87,10 +87,9 @@ def get_station_openw(latitude, longitude):
 
 
 if __name__ == "__main__":
-    get_coords()
     # print("Dane z IMGW:")
     # get_station_imgw()
-    print("========================================")
+    print("===============================================================================")
     print("Dane z OpenWeatherMap:")
     x,y = get_coords()
     get_station_openw(x,y)
