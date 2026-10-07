@@ -13,13 +13,16 @@ headers = {
 def get_coords():
      while True:
         address = input("Podaj adres: ")
+        if address == "dom":
+            print("Wybrano")
+            return 52.20640182495117, 21.031982421875
         limit = 1
 
         url = "https://nominatim.openstreetmap.org/search"
         params = {
             "q" : address,
             "limit" : limit,
-            "countrycodes" : "pl",
+           # "countrycodes" : "pl",
             "format" : "json"
             }
 
@@ -30,7 +33,6 @@ def get_coords():
             first_result = data[0]
             latitude = first_result["lat"]
             longitude = first_result["lon"]
-            print(f"Znaleziono {limit}.")
             print(first_result["display_name"])
             return latitude, longitude
         else:
@@ -58,7 +60,7 @@ def get_station_imgw():
         print("Nie znaleziono stacji. Spróbuj ponownie.")
         print("========================================")
 
-def get_station_openw(latitude, longitude):
+def get_weather(latitude, longitude):
     cache_session = requests_cache.CachedSession('.cache', expire_after = 3600)
     retry_session = retry(cache_session, retries = 5, backoff_factor = 0.2)
     openmeteo = openmeteo_requests.Client(session = retry_session)
@@ -89,10 +91,10 @@ def get_station_openw(latitude, longitude):
 if __name__ == "__main__":
     # print("Dane z IMGW:")
     # get_station_imgw()
-    print("===============================================================================")
-    print("Dane z OpenWeatherMap:")
+    print("==========================================================")
+    print("Pogoda z OpenWeater:")
     x,y = get_coords()
-    get_station_openw(x,y)
+    get_weather(x,y)
 
     #todo zrobić opcje wyboru współrzędnych z mapy
     #todo zrobić frontend w HTML i JS, który będzie wyświetlał dane w tabeli i umożliwiał wybór stacji z listy rozwijanej
